@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Birthday Surprise</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      transition: background 1s ease;
+      overflow: hidden;
+    }
+
+    h1, h2 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3em;
+      margin-top: 20vh;
+      animation: fadeIn 2s ease;
+    }
+
+    p {
+      font-size: 1.5em;
+      animation: fadeIn 2s ease;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 1em;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      background-color: #ff4081;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover { background-color: #e91e63; }
+    .hidden { display: none; }
+
+    #flowerRain, #balloons, #fireworks {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 1;
+    }
+
+    .flower, .balloon {
+      position: absolute; background-size: cover; opacity: 0.8;
+    }
+
+    .flower {
+      width: 25px; height: 25px;
+      background-image: url('red-rose.png');
+      animation: fall 20s linear 2;
+    }
+
+    .balloon {
+      width: 70px; height: 90px;
+      background-image: url('Love Balloon.png');
+      animation: rise 6s linear 1;
+      bottom: -80px;
+    }
+
+    @keyframes fall {
+      0% { top: -50px; opacity: 1; }
+      100% { top: 100vh; opacity: 0; }
+    }
+
+    @keyframes rise {
+      0% { bottom: -70px; opacity: 1; }
+      100% { bottom: 100vh; opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes flash {
+      0% { background-color: #000; }
+      50% { background-color: #fff; }
+      100% { background-color: #fff; }
+    }
+    .light-flash { animation: flash 1.5s ease forwards; }
+
+    #cake {
+      width: 400px;
+      margin: 30px auto;
+      animation: fadeIn 2s ease;
+    }
+
+    #jhumar {
+      font-size: 4em;
+      font-family: "Cursive", sans-serif;
+      color: gold;
+      text-shadow: 2px 2px 8px black;
+      margin-top: 50px;
+      animation: bounce 5s infinite;
+    }
+
+    #finalNote {
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+url('Bestcouple.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-blend-mode: lighten;
+      padding: 40px;
+      font-size: 2em;
+      color: #e91e63;
+      font-family: 'Pacifico', cursive;
+      border-radius: 20px;
+      box-shadow: 0 0 20px pink;
+      margin: 30px;
+      animation: fadeIn 2s ease;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .bulb {
+      width: 20px; height: 20px; border-radius: 50%;
+      position: absolute; top: 10px;
+      animation: blink 1s infinite alternate;
+      z-index: 2;
+    }
+    @keyframes blink { from {opacity: 0.2;} to {opacity: 1;} }
+    .bulb.red { background: red; }
+    .bulb.blue { background: blue; }
+    .bulb.green { background: green; }
+    .bulb.yellow { background: yellow; }
+    .bulb.purple { background: purple; }
+
+    .rocket {
+      position: absolute;
+      width: 10px; height: 14px;
+      background: black;
+      border-radius: 70%;
+      animation: shoot 1s ease-out forwards;
+    }
+    @keyframes shoot {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-400px); opacity: 0.8; }
+    }
+
+    .particle {
+      position: absolute; width: 10px; height: 10px;
+      border-radius: 50%; background: white;
+      pointer-events: none; animation: explode 1.8s ease-out forwards;
+    }
+    @keyframes explode {
+      0% { transform: translate(0, 0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--x), var(--y)) scale(0.3); opacity: 0; }
+    }
+
+    @media (max-width: 600px) {
+      h1, h2 { font-size: 2em; }
+      p { font-size: 1.2em; }
+      #cake { width: 180px; }
+    }
+
+    #animationVideo {
+      position: fixed;
+      top: 50%; left: 50%;
+      width: 40vw; height: 100vh;
+      object-fit: cover;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    #animationVideo.show { opacity: 1; }
+  </style>
+</head>
+<body>
+
+<div id="flowerRain"></div>
+<video id="animationVideo" class="hidden" src="Video(9;16).mp4" autoplay muted></video>
+<div id="balloons" class="hidden"></div>
+<div id="fireworks"></div>
+
+<h1 id="step1">It's Your Special Day 💐</h1>
+
+<div id="step2" class="hidden">
+  <p id="line1" class="hidden">I have to make something special for you which are special to me!</p>
+  <p id="line2" class="hidden">Do you wanna see what I made??</p>
+  <div id="choiceButtons" class="hidden">
+    <button onclick="choose('yes')">Yes</button>
+    <button onclick="choose('no')">No</button>
+  </div>
+</div>
+
+<div id="step3" class="hidden"></div>
+<div id="finalNote" class="hidden"></div>
+
+<audio id="bgMusic" src="Mitwa.mp3"></audio>
+
+<script>
+  // 🌸 Flower Rain
+  for (let i = 0; i < 40; i++) {
+    let flower = document.createElement('div');
+    flower.className = 'flower';
+    flower.style.left = Math.random() * 100 + 'vw';
+    flower.style.animationDelay = Math.random() * 6 + 's';
+    document.getElementById('flowerRain').appendChild(flower);
+  }
+
+  // Step 2 flow
+  setTimeout(() => {
+    document.getElementById('step1').classList.add('hidden');
+    document.getElementById('step2').classList.remove('hidden');
+    document.getElementById('line1').classList.remove('hidden');
+
+    setTimeout(() => {
+      document.getElementById('line1').classList.add('hidden');
+      document.getElementById('line2').classList.remove('hidden');
+      setTimeout(() => {
+        document.getElementById('choiceButtons').classList.remove('hidden');
+      }, 1500);
+    }, 5000);
+  }, 4000);
+
+  function choose(answer) {
+    document.getElementById('step2').classList.add('hidden');
+    const step3 = document.getElementById('step3');
+    step3.classList.remove('hidden');
+
+    if (answer === 'no') {
+      step3.innerHTML = '<div style="font-size: 5em; margin-top: 20px;">😢</div><p style="font-size:1.5em; color:red;">Arre yaar... aisa mat bolo 😭</p>';
+    } else {
+      step3.innerHTML = '<button onclick="playMusic()">Play Music</button>';
+    }
+  }
+
+  function playMusic() {
+    document.getElementById('bgMusic').play();
+
+    // Hide play button, show Light On
+    const step3 = document.getElementById('step3');
+    step3.innerHTML = '<button onclick="lightOn()">Light On</button>';
+  }
+
+  function lightOn() {
+    const step3 = document.getElementById('step3');
+    const button = step3.querySelector('button');
+    if (button) button.style.display = 'none';
+
+    document.body.classList.add("light-flash");
+
+    setTimeout(() => {
+      document.body.style.backgroundColor = '#fff';
+      document.getElementById('flowerRain').classList.remove('hidden');
+      document.body.classList.remove("light-flash");
+
+      const video = document.getElementById('animationVideo');
+      video.classList.remove('hidden');
+      video.classList.add('show');
+      video.play();
+
+      video.addEventListener('ended', () => {
+        document.getElementById('step3').innerHTML = '<button onclick="decorate()">Decorate</button>';
+      });
+    }, 1500);
+  }
+
+  function decorate() {
+    const video = document.getElementById('animationVideo');
+    video.pause();
+    video.classList.remove('show');
+    setTimeout(() => video.classList.add('hidden'), 1000);
+
+    document.getElementById('step3').innerHTML =
+      '<div id="jhumar">🎉 Wish You A Very Happy Birthday To My Butkii 🎉</div><button onclick="flyBalloons()">Fly the Balloons</button>';
+
+    // Bulbs
+    for (let i = 0; i < 15; i++) {
+      let bulb = document.createElement("div");
+      bulb.className = "bulb " + ["red","blue","green","yellow","purple"][Math.floor(Math.random()*5)];
+      bulb.style.left = (i * 6 + 2) + "vw";
+      bulb.style.animationDelay = (Math.random() * 1.5) + "s";
+      document.body.appendChild(bulb);
+    }
+
+    // Fireworks
+    for (let round = 0; round < 5; round++) {
+      setTimeout(() => {
+        for (let i = 0; i < 3; i++) {
+          const x = Math.random() * window.innerWidth;
+          const y = window.innerHeight;
+          createRocket(x, y);
+        }
+      }, round * 2000);
+    }
+  }
+
+  function createRocket(x, y) {
+    const container = document.getElementById("fireworks");
+    const rocket = document.createElement("div");
+    rocket.className = "rocket";
+    rocket.style.left = x + "px";
+    rocket.style.top = y + "px";
+    container.appendChild(rocket);
+
+    setTimeout(() => {
+      rocket.remove();
+      createExplosion(x, y - 400);
+    }, 1000);
+  }
+
+  function createExplosion(x, y) {
+    const container = document.getElementById("fireworks");
+    for (let i = 0; i < 50; i++) {
+      const particle = document.createElement("div");
+      particle.className = "particle";
+      particle.style.background = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      const angle = Math.random() * 2 * Math.PI;
+      const distance = 100 + Math.random() * 120;
+      particle.style.setProperty("--x", Math.cos(angle) * distance + "px");
+      particle.style.setProperty("--y", Math.sin(angle) * distance + "px");
+      particle.style.left = x + "px";
+      particle.style.top = y + "px";
+      container.appendChild(particle);
+      setTimeout(() => particle.remove(), 2000);
+    }
+  }
+
+  function flyBalloons() {
+    const balloonArea = document.getElementById('balloons');
+    balloonArea.classList.remove('hidden');
+    balloonArea.innerHTML = '';
+    const step3 = document.getElementById('step3');
+    const currentButton = step3.querySelector('button');
+    if (currentButton) currentButton.style.display = 'none';
+
+    for (let i = 0; i < 8; i++) {
+      let balloon = document.createElement('div');
+      balloon.className = 'balloon';
+      balloon.style.left = Math.random() * 100 + 'vw';
+      balloon.style.animationDelay = Math.random() * 8 + 's';
+      balloonArea.appendChild(balloon);
+    }
+
+    setTimeout(() => {
+      step3.innerHTML = '<br><button onclick="cutCake()">Let\'s Cut the Cake Sweetheart</button>';
+    }, 8000);
+  }
+
+  function cutCake() {
+    document.querySelectorAll('.flower').forEach(f => { f.style.opacity = '0'; setTimeout(()=>f.remove(),1000); });
+    document.querySelectorAll('.balloon').forEach(b => { b.style.opacity = '0'; setTimeout(()=>b.remove(),1000); });
+    setTimeout(() => {
+      document.getElementById('step3').innerHTML =
+        '<img id="cake" src="Cake.png" alt="Cake"><br><button onclick="finalMessage()">Well, I Have a Message for You Madam jii</button>';
+    }, 1200);
+  }
+
+  function finalMessage() {
+    document.getElementById('step3').classList.add('hidden');
+    document.getElementById('balloons').classList.add('hidden');
+    document.getElementById('flowerRain').classList.add('hidden');
+    document.body.style.backgroundColor = '#fff';
+    document.getElementById('finalNote').classList.remove('hidden');
+    document.getElementById('finalNote').innerHTML = `
+      <h3>Dear darling jii 💌</h3>
+      <p2>
+        Every moment with you feels like a beautiful dream I never want to end.
+You are my heart, my peace, and my greatest blessing.
+
+On your special day, I just want to remind you how deeply I love you —
+not just for who you are, but for how you make my world so full of warmth and happiness.
+      </p2><br>
+      <strong>❤ I LOVE YOU MORE THAN WORDS CAN EVER SAY ❤</strong><p style="font-size:14px; color: gray; margin-top:20px;">
+        Designed with ❤ by Bunny </p>
+
+    `;
+  }
+</script>
+
+</body>
+</html>
